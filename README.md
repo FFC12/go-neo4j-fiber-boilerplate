@@ -1,7 +1,8 @@
 ## Fiber with Neo4j Boilerplate
 
 This boilerplate provides a robust foundation for building web applications using the Fiber web framework, Neo4j database, JWT-based authentication, Swagger for API documentation, and Docker for containerization.
-Features
+
+### Features
 
 - **Fiber Web Framework**: Built on the fast and efficient Fiber framework for handling HTTP requests.
 - **Neo4j Database**: Utilizes Neo4j, a powerful and flexible graph database.
