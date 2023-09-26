@@ -15,11 +15,8 @@ func GenerateJWT(data map[string]any, hour int64) (string, error) {
 	claims["exp"] = time.Now().Add(time.Duration(hour) * time.Hour).Unix()
 
 	for key, value := range data {
-		InfoLogger.Println("Key: ", key, " - Value: ", value)
 		claims[key] = value
 	}
-
-	ErrorLogger.Println("Secret: ", JWT_SECRET_KEY)
 
 	tokenStr, err := token.SignedString([]byte(JWT_SECRET_KEY))
 

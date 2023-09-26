@@ -7,6 +7,7 @@ import (
 	"main/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
@@ -31,7 +32,12 @@ func main() {
 
 	ctx := database.InitDB()
 	defer database.CloseDriver(ctx)
+
 	app := fiber.New()
+
+	app.Use(logger.New(logger.Config{
+		Format: "${pid} ${locals:requestid} ${status} - ${method} ${path}​\n",
+	}))
 
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 	app.Post("/user/signup", api.SignUpHandler)

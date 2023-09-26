@@ -6,6 +6,6 @@ services:
       context: .
       target: dev
     ports:
-      - 3000:3000
+      - 8000:8000
     volumes:
-      - .:/opt/app/api
+      - ./:/app
