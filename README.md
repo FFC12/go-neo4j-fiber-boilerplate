@@ -11,6 +11,19 @@ This boilerplate provides a robust foundation for building web applications usin
 - **Docker Support**: Containerize your application for easy deployment and scaling.
 
 
+### Run
+To run the application locally without Docker, follow these steps:
+
+1) Run `go mod download`.
+2) Start the app using `air`.
+
+If you prefer to build and run it with Docker, make sure Docker is installed and execute the following command in your terminal:
+```bash
+docker-compose up -d
+```
+
+Additionally, ensure that your `.env` file is correctly configured. You can use the Neo4j Sandbox credentials for this purpose.
+
 ## License
 
 MIT
