@@ -14,6 +14,7 @@ const (
 	SessionRead
 )
 
+// Returns `records` as `[]*neo4j.Record`
 func SessionExecuteMany(
 	ctx context.Context,
 	session neo4j.SessionWithContext,
@@ -40,9 +41,10 @@ func SessionExecuteMany(
 		return records.([]*neo4j.Record), err
 	}
 
-	return nil, errors.New("While executing a session an error occurred!")
+	return nil, errors.New("while executing a session an error occurred")
 }
 
+// Returns `records` as `*neo4j.Record`
 func SessionExecuteOne(
 	ctx context.Context,
 	session neo4j.SessionWithContext,
@@ -69,6 +71,5 @@ func SessionExecuteOne(
 		return records, err
 	}
 
-	return nil, errors.New("While executing a session an error occurred!")
+	return nil, errors.New("while executing a session an error occurred")
 }
-

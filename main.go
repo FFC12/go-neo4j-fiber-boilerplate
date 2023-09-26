@@ -25,7 +25,8 @@ func main() {
 	// Init config and globals
 	utils.InitConfig()
 
-	// Init logger set True if you wanna write file instead of stdout
+	// Init logger, set True if you want to write the file instead of stdout
+	// It will create a 'logs.txt' file and start printing to it.
 	utils.InitLogger(false)
 
 	ctx := database.InitDB()

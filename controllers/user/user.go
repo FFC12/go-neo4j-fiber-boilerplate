@@ -76,19 +76,11 @@ func UserLogin(ctx context.Context, user models.UserLogin) (map[string]any, erro
 			matchUserQuery := `
 				MATCH (user:User)
 				WHERE user.username = $username 
-				AND user.password = $password
 				RETURN ID(user) AS nodeID, user
 			`
 
-			hashed, err := utils.HashPassword(user.Password)
-
-			if err != nil {
-				return nil, err
-			}
-
 			matchUserParams := map[string]any{
 				"username": user.Username,
-				"password": hashed,
 			}
 
 			result, err := tx.Run(ctx, matchUserQuery, matchUserParams)
@@ -107,8 +99,6 @@ func UserLogin(ctx context.Context, user models.UserLogin) (map[string]any, erro
 				return nil, errors.New("ID does not exist at node?")
 			}
 
-			utils.InfoLogger.Println("Node ID: ", nodeID)
-
 			jsonBytes, err := json.Marshal(record.AsMap())
 			if err != nil {
 				return nil, err
@@ -121,6 +111,13 @@ func UserLogin(ctx context.Context, user models.UserLogin) (map[string]any, erro
 			}
 
 			props := userResponse.User.Props
+
+			// Check if password correct or not
+			if !utils.CheckPasswordHash(user.Password, props["password"].(string)) {
+				utils.InfoLogger.Println("Password mismatched for: ", props["username"].(string))
+
+				return nil, errors.New("invalid password")
+			}
 
 			return map[string]any{
 				"id":       nodeID.(int64),
@@ -156,7 +153,7 @@ func ManagedCheckIfUserExist(ctx context.Context, tx neo4j.ManagedTransaction, u
 		})
 
 	if err != nil {
-		panic(err)
+		utils.ErrorLogger.Panic(err)
 	}
 
 	return result.Next(ctx)

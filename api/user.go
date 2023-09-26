@@ -84,9 +84,21 @@ func LoginHandler(ctx *fiber.Ctx) error {
 			})
 		}
 
-		return ctx.JSON(map[string]string{
-			"jwt": token,
-		})
+		refreshToken, err := utils.RefreshJWT(map[string]any{
+			"id": id,
+		}, 24)
 
+		if err != nil {
+			utils.ErrorLogger.Println("Error: ", err)
+
+			return ctx.JSON(map[string]string{
+				"error": "An unexpected error occurred",
+			})
+		}
+
+		return ctx.JSON(map[string]string{
+			"access_token":  token,
+			"refresh_token": refreshToken,
+		})
 	}
 }

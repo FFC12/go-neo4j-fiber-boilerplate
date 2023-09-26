@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -18,7 +17,7 @@ var (
 func InitConfig() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		ErrorLogger.Panic("Error loading .env file")
 	}
 
 	DB_NAME = os.Getenv("DATABASE_NAME")
